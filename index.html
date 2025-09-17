@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio</title>
+  <style>
+    /* Basic Reset & Styles */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      color: #eee;
+      overflow-x: hidden;
+      background-color: #0d0d0d;
+      background-image:
+        linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
+      animation: neonGridPulse 6s infinite ease-in-out alternate;
+      text-shadow: 0 0 5px #00ffffaa;
+    }
+
+    @keyframes neonGridPulse {
+
+      0%,
+      100% {
+        background-position: 0 0, 15px 15px;
+        background-color: #0d0d0d;
+      }
+
+      50% {
+        background-position: 0 3px, 15px 18px;
+        background-color: #000814;
+      }
+    }
+
+    /* Neon blinking animation for solo projects */
+    @keyframes blinkingNeon {
+
+      0%,
+      100% {
+        box-shadow:
+          0 0 5px #0ff,
+          0 0 10px #0ff,
+          0 0 20px #0ff,
+          0 0 40px #0ff,
+          0 0 80px #0ff;
+        border-color: #0ff;
+      }
+
+      50% {
+        box-shadow:
+          0 0 3px #08f,
+          0 0 6px #08f,
+          0 0 10px #08f;
+        border-color: #08f;
+      }
+    }
+
+    /*
+    /* Sparkle shimmer dots animation */
+    @keyframes sparkle {
+
+      0%,
+      100% {
+        opacity: 0.8;
+        transform: scale(1) rotate(0deg);
+      }
+
+      50% {
+        opacity: 0;
+        transform: scale(0.5) rotate(45deg);
+      }
+    }
+
+    /* Sparkle container positioning */
+    .project-solo {
+      position: relative;
+      overflow: hidden;
+      border: 2px solid #0ff;
+      animation: blinkingNeon 3s infinite alternate;
+    }
+
+    /*
+    /* Multiple sparkle dots with different positions and delays */
+    .project-solo::before,
+    .project-solo::after,
+    .project-solo span.sparkle1,
+    .project-solo span.sparkle2,
+    .project-solo span.sparkle3 {
+      content: "";
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #ffea00;
+      /* Neon golden yellow */
+      border-radius: 50%;
+      box-shadow: 0 0 8px #ffea00;
+      animation: sparkle 3s infinite ease-in-out;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+
+    .project-solo::before {
+      top: 15%;
+      left: 20%;
+      animation-delay: 0s;
+    }
+
+
+    .project-solo::after {
+      top: 60%;
+      left: 60%;
+      animation-delay: 1.5s;
+    }
+
+    /* Additional sparkles */
+    .project-solo span.sparkle1 {
+      top: 30%;
+      left: 75%;
+      animation-delay: 0.7s;
+    }
+
+    .project-solo span.sparkle2 {
+      top: 50%;
+      left: 40%;
+      animation-delay: 1.2s;
+    }
+
+    .project-solo span.sparkle3 {
+      top: 80%;
+      left: 25%;
+      animation-delay: 2s;
+    }
+
+    header {
+      background: rgba(0, 0, 0, 0.85);
+      color: #0ff;
+      padding: 1rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      text-shadow: 0 0 8px #0ff;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 10px;
+      box-shadow: 0 0 20px #0ff7;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Profile Picture */
+    .profile-pic {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 1rem;
+      border-radius: 50%;
+      background: #444;
+      display: block;
+      background-image: url('/assets/images/pfp.jpg');
+      background-position: top;
+      background-size: cover;
+      box-shadow: 0 0 15px #0ff;
+      transition: transform 0.3s ease, opacity 0.6s ease;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .profile-pic.animate {
+      opacity: 1;
+      transform: translateY(0) scale(1.05);
+      box-shadow: 0 0 25px #0ff;
+    }
+
+    .profile-pic:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 0 35px #0ffcda;
+    }
+
+    /* Headings */
+    h1,
+    h2 {
+      text-align: center;
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      color: #0ff;
+      text-shadow:
+        0 0 5px #00fefe,
+        0 0 15px #00fefe,
+        0 0 20px #00fefe;
+    }
+
+    h1.animate,
+    h2.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* About Section */
+    .about {
+      background: rgba(0, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 1rem 2rem;
+      margin: 2rem 0;
+      box-shadow: 0 0 12px #00fff0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+      color: #a0fff0;
+      font-weight: 600;
+      text-shadow: 0 0 10px #00fff0aa;
+    }
+
+    .about.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Section Container */
+    section.project-section {
+      margin-top: 3rem;
+    }
+
+    /* Projects Grids */
+    .projects,
+    .projects-collab {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .projects.animate,
+    .projects-collab.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Collaborated project cards normal highlight */
+    .project-collab {
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 6px #0ff;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(30px);
+      color: #0ff;
+      border: 2px solid rgba(0, 255, 255, 0.4);
+    }
+
+    .project-collab.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .project-collab:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #0ffcda;
+      border-color: #0ffcda;
+    }
+
+    /* Project Images and Titles */
+    .project-solo img,
+    .project-collab img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+      filter: drop-shadow(0 0 5px #00ffff);
+      border-bottom: 1px solid #0ff;
+    }
+
+    .project-solo:hover img,
+    .project-collab:hover img {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 10px #00fffc);
+    }
+
+    .project-title {
+      padding: 0.5rem;
+      font-weight: bold;
+      color: #0ff;
+      text-shadow: 0 0 8px #00fff0;
+      text-align: center;
+      /* Add this line to center the text */
+    }
+
+    /* Social links */
+    .social-links {
+      margin-top: 2rem;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .social-links.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .social-links a {
+      display: inline-block;
+      margin: 0 0.5rem;
+      text-decoration: none;
+      color: #0ff;
+      font-size: 1.8rem;
+      transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+      text-shadow: 0 0 10px #00fff0;
+    }
+
+    .social-links a:hover {
+      color: #0ffcda;
+      transform: scale(1.2);
+      text-shadow: 0 0 20px #00ffcdaa;
+    }
+
+    /* Responsive */
+    @media (max-width: 500px) {
+      .profile-pic {
+        width: 120px;
+        height: 120px;
+      }
+
+      .about {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>My Portfolio</h1>
+  </header>
+  <div class="container">
+    <div class="profile-pic" title="Profile Picture"></div>
+    <section class="about" aria-label="About Me">
+      <h2>About Me</h2>
+      <p>
+      <p>Hey! I am Swarnav, a passionate game developer currently working as an HTML5 Game Developer at Red Apple
+        Technologies, Kolkata. With 3 years of experience, I have successfully developed and collaborated on a wide
+        range of projects utilizing various JavaScript frameworks and platforms. I am committed to continuous learning,
+        always exploring new technologies that enhance my skills professionally and personally. Here, I showcase some of
+        the projects I have developed and contributed to, demonstrating my capabilities and versatility in the field.
+      </p>
+      <h2>About the Projects</h2>
+      <p>
+        In the "Projects Developed Solo" section, you will find games where I independently coded all the core mechanics
+        and features, showcasing my full development capabilities. The "Projects Collaborated On" section features
+        projects where I contributed as part of a team, bringing my expertise to enhance and support collaborative game
+        development efforts.
+      </p>
+    </section>
+    <section class="project-section">
+      <h2>Projects Developed Solo</h2>
+      <div class="projects" id="projects-solo">
+        <!-- Solo project thumbnails added by JS -->
+      </div>
+    </section>
+    <section class="project-section">
+      <h2>Projects Collaborated On</h2>
+      <div class="projects-collab" id="projects-collab">
+        <!-- Collaborated project thumbnails added by JS -->
+      </div>
+    </section>
+    <section class="social-links" aria-label="Social Links">
+      <h2>Connect with Me</h2>
+      <a href="https://github.com/pixiswarnav" target="_blank" rel="noopener noreferrer" aria-label="GitHub">🐱</a>
+      <a href="www.linkedin.com/in/swarnavk" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">🔗</a>
+      <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" aria-label="Twitter">🐦</a>
+      <a href="mailto:swarnavkarmakar@gmail.com" aria-label="Email">✉️</a>
+    </section>
+  </div>
+  <script>
+    // Projects data: separated into solo and collaborated
+    const projectsSolo = [
+      {
+        title: ['Cake Sort', '(PhaserJS)'].join('<br>'),
+        img: '/assets/images/thumbnails/Cake-Sort.png',
+        url: 'https://www.playzhub.com/game/Cake-Sort'
+      },
+      {
+        title: ['Word Search', '(PhaserJS)'].join('<br>'),
+        img: '/assets/images/thumbnails/WordSearch.png',
+        url: 'https://www.playzhub.com/game/Word-Search'
+      },
+      {
+        title: ['Snakes & Ladders', '(PhaserJS)'].join('<br>'),
+        img: '/assets/images/thumbnails/Snake-&-Ladder.png',
+        url: 'https://www.playzhub.com/game/Snake-and-Ladder'
+      },
+      {
+        title: ['Super Bird', '(Construct 3)'].join('<br>'),
+        img: '/assets/images/thumbnails/SuperBird.png',
+        url: 'https://www.playzhub.com/game/Super-Bird'
+      },
+      {
+        title: ['Super Monkey', '(PhaserJS)'].join('<br>'),
+        img: '/assets/images/thumbnails/SuperMonkey.png',
+        url: 'https://example.com/project-word-search'
+      },
+    ];
+    const projectsCollab = [
+      {
+        title: ['Beasty Attack', '(Construct 3)'].join('<br>'),
+        img: '/assets/images/thumbnails/Beasty-Attack.png',
+        url: 'https://www.playzhub.com/game/Beasty-Attack'
+      },
+      {
+        title: ['Candies Stripes', '(Construct 3)'].join('<br>'),
+        img: '/assets/images/thumbnails/Candies-Stripes.png',
+        url: 'https://www.playzhub.com/game/Candies-Stripes'
+      },
+      {
+        title: ['Cosmic Redeemer', '(Construct 3)'].join('<br>'),
+        img: '/assets/images/thumbnails/Cosmic-Redeemer.png',
+        url: 'https://www.playzhub.com/game/Cosmic-Redeemer'
+      },
+      {
+        title: ['Cruiser Buzz', '(Construct 3)'].join('<br>'),
+        img: '/assets/images/thumbnails/Cruiser-Buzz.png',
+        url: 'https://www.playzhub.com/game/Cruise-Buzz'
+      },
+      {
+        title: ['Flappy Shapes', '(Construct 3)'].join('<br>'),
+        img: '/assets/images/thumbnails/Flappy-Shapes.png',
+        url: 'https://www.playzhub.com/game/Flappy-Shapes'
+      },
+      {
+        title: ['Ragey Birds', '(Construct 3)'].join('<br>'),
+        img: '/assets/images/thumbnails/Ragey Birds.png',
+        url: 'https://www.playzhub.com/game/Ragey-Birds'
+      },
+      {
+        title: ['Smashy Pet Pops', '(Construct 3)'].join('<br>'),
+        img: '/assets/images/thumbnails/Smashy-Pet-Pops.png',
+        url: 'https://www.playzhub.com/game/Smashy-Pet-Pops'
+      },
+      {
+        title: ['Soccer & Head Pop', '(Construct 3)'].join('<br>'),
+        img: '/assets/images/thumbnails/Soccer-&-Head-Pop.png',
+        url: 'https://www.playzhub.com/game/Soccer-Head-Pop'
+      },
+      {
+        title: ['Tacky Tomb Run', '(Construct 3)'].join('<br>'),
+        img: '/assets/images/thumbnails/Tacky-Tomb-Run.png',
+        url: 'https://www.playzhub.com/game/Tacky-Tomb-Run'
+      },
+      {
+        title: ['Ziggy Miner', '(Construct 3)'].join('<br>'),
+        img: '/assets/images/thumbnails/Ziggy-Miner.png',
+        url: 'https://www.playzhub.com/game/Ziggy-Miner'
+      },
+
+    ];
+    // Function to add projects to a container
+    function addProjects(projects, containerId, projectClass) {
+      const container = document.getElementById(containerId);
+      projects.forEach((project, idx) => {
+        const projectDiv = document.createElement('div');
+        projectDiv.className = projectClass;
+        projectDiv.setAttribute('tabindex', '0');
+        projectDiv.setAttribute('role', 'button');
+        projectDiv.setAttribute('aria-label', `Open ${project.title}`);
+        // On click or enter key open project in new tab
+        projectDiv.onclick = () => window.open(project.url, '_blank', 'noopener');
+        projectDiv.onkeypress = e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            window.open(project.url, '_blank', 'noopener');
+          }
+        };
+        const img = document.createElement('img');
+        img.src = project.img;
+        img.alt = project.title;
+        const title = document.createElement('div');
+        title.className = 'project-title';
+        title.innerHTML = project.title;
+        projectDiv.appendChild(img);
+        projectDiv.appendChild(title);
+        container.appendChild(projectDiv);
+      });
+    }
+    // Add projects on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      addProjects(projectsSolo, 'projects-solo', 'project-solo');
+      addProjects(projectsCollab, 'projects-collab', 'project-collab');
+      // Animate header immediately
+      document.querySelector('header').classList.add('animate');
+      // Animate main titles h1,h2 outside container for better initial effect
+      document.querySelectorAll('h1,h2').forEach(el => {
+        if (el.parentElement.classList.contains('container') === false) {
+          el.classList.add('animate');
+        }
+      });
+    });
+    // Intersection Observer to animate on scroll
+    const observerOptions = {
+      threshold: 0.2
+    };
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    // Observe profile, about, project containers, social links and individual project cards
+    const targets = [
+      document.querySelector('.profile-pic'),
+      document.querySelector('.about'),
+      document.querySelector('.projects'),
+      document.querySelector('.projects-collab'),
+      document.querySelector('.social-links')
+    ].filter(Boolean);
+    targets.forEach(el => observer.observe(el));
+    // Also animate each project card with small delay in sequence
+    function observeProjectCards(className) {
+      const cards = document.querySelectorAll(`.${className}`);
+      cards.forEach((card, index) => {
+        card.style.transitionDelay = (index * 0.15) + 's';
+        observer.observe(card);
+      });
+    }
+    // After DOMContentLoaded, observe project cards with delay setting
+    window.addEventListener('DOMContentLoaded', () => {
+      observeProjectCards('project-solo');
+      observeProjectCards('project-collab');
+    });
+  </script>
+</body>
+
+</html>
