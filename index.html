@@ -1,614 +1,686 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Portfolio</title>
+  <title>Swarnav - Vaporwave Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=VT323&display=swap" rel="stylesheet">
   <style>
-    /* Basic Reset & Styles */
+    /* Vaporwave Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     html {
       scroll-behavior: smooth;
     }
 
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      color: #eee;
+      font-family: 'VT323', monospace;
+      background-color: #050014;
+      color: #0ff;
+      min-height: 100vh;
       overflow-x: hidden;
-      background-color: #0d0d0d;
+      font-size: 1.2rem;
+    }
+
+    /* Synthwave Background Elements */
+    .synth-grid {
+      position: fixed;
+      width: 200vw;
+      height: 200vh;
+      left: -50vw;
+      top: 40vh;
       background-image:
-        linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px),
-        linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px);
-      background-size: 30px 30px;
-      background-position: 0 0, 15px 15px;
-      animation: neonGridPulse 6s infinite ease-in-out alternate;
-      text-shadow: 0 0 5px #00ffffaa;
+        linear-gradient(rgba(255, 0, 255, 0.6) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(0, 255, 255, 0.4) 2px, transparent 2px);
+      background-size: 80px 80px;
+      transform-origin: top center;
+      transform: perspective(400px) rotateX(75deg);
+      animation: moveGrid 2s linear infinite;
+      z-index: -1;
+      pointer-events: none;
     }
 
-    @keyframes neonGridPulse {
+    @keyframes moveGrid {
+      0% {
+        transform: perspective(400px) rotateX(75deg) translateY(0);
+      }
 
-      0%,
       100% {
-        background-position: 0 0, 15px 15px;
-        background-color: #0d0d0d;
-      }
-
-      50% {
-        background-position: 0 3px, 15px 18px;
-        background-color: #000814;
+        transform: perspective(400px) rotateX(75deg) translateY(80px);
       }
     }
 
-    /* Neon blinking animation for solo projects */
-    @keyframes blinkingNeon {
-
-      0%,
-      100% {
-        box-shadow:
-          0 0 5px #0ff,
-          0 0 10px #0ff,
-          0 0 20px #0ff,
-          0 0 40px #0ff,
-          0 0 80px #0ff;
-        border-color: #0ff;
-      }
-
-      50% {
-        box-shadow:
-          0 0 3px #08f,
-          0 0 6px #08f,
-          0 0 10px #08f;
-        border-color: #08f;
-      }
+    .synth-sun {
+      position: fixed;
+      top: 10vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: linear-gradient(to bottom, #ffea00 0%, #ff00a0 100%);
+      box-shadow: 0 0 100px #ff00a0, 0 0 200px #ff00a0;
+      z-index: -2;
+      pointer-events: none;
     }
 
-    /*
-    /* Sparkle shimmer dots animation */
-    @keyframes sparkle {
-
-      0%,
-      100% {
-        opacity: 0.8;
-        transform: scale(1) rotate(0deg);
-      }
-
-      50% {
-        opacity: 0;
-        transform: scale(0.5) rotate(45deg);
-      }
-    }
-
-    /* Sparkle container positioning */
-    .project-solo {
-      position: relative;
-      overflow: hidden;
-      border: 2px solid #0ff;
-      animation: blinkingNeon 3s infinite alternate;
-    }
-
-    /*
-    /* Multiple sparkle dots with different positions and delays */
-    .project-solo::before,
-    .project-solo::after,
-    .project-solo span.sparkle1,
-    .project-solo span.sparkle2,
-    .project-solo span.sparkle3 {
+    .synth-sun::after {
       content: "";
       position: absolute;
-      width: 8px;
-      height: 8px;
-      background: #ffea00;
-      /* Neon golden yellow */
-      border-radius: 50%;
-      box-shadow: 0 0 8px #ffea00;
-      animation: sparkle 3s infinite ease-in-out;
-      pointer-events: none;
-      z-index: 5;
-    }
-
-
-    .project-solo::before {
-      top: 15%;
-      left: 20%;
-      animation-delay: 0s;
-    }
-
-
-    .project-solo::after {
-      top: 60%;
-      left: 60%;
-      animation-delay: 1.5s;
-    }
-
-    /* Additional sparkles */
-    .project-solo span.sparkle1 {
-      top: 30%;
-      left: 75%;
-      animation-delay: 0.7s;
-    }
-
-    .project-solo span.sparkle2 {
       top: 50%;
-      left: 40%;
-      animation-delay: 1.2s;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: repeating-linear-gradient(transparent, transparent 15px, #050014 15px, #050014 22px);
+      border-radius: 0 0 200px 200px;
     }
 
-    .project-solo span.sparkle3 {
-      top: 80%;
-      left: 25%;
-      animation-delay: 2s;
+    /* Intro Screen */
+    #intro-screen {
+      position: fixed;
+      inset: 0;
+      background: #050014;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
     }
 
-    header {
-      background: rgba(0, 0, 0, 0.85);
-      color: #0ff;
-      padding: 1rem;
-      text-align: center;
-      position: sticky;
+    #intro-screen h1 {
+      font-family: 'Righteous', cursive;
+      font-size: 3rem;
+      text-transform: uppercase;
+      background: linear-gradient(to bottom, #ffffff 0%, #00ffff 50%, #000000 51%, #ff00ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 10px #ff00ff);
+      animation: vhsGlitch 3s infinite alternate;
+      cursor: pointer;
+    }
+
+    @keyframes vhsGlitch {
+      0% {
+        transform: skewX(0deg);
+        filter: drop-shadow(0 0 10px #ff00ff) hue-rotate(0deg);
+      }
+
+      10% {
+        transform: skewX(-5deg);
+        filter: drop-shadow(0 0 20px #00ffff) hue-rotate(90deg);
+      }
+
+      20% {
+        transform: skewX(0deg);
+        filter: drop-shadow(0 0 10px #ff00ff) hue-rotate(0deg);
+      }
+
+      100% {
+        transform: skewX(0deg);
+        filter: drop-shadow(0 0 10px #ff00ff);
+      }
+    }
+
+    /* HUD */
+    #hud {
+      position: fixed;
       top: 0;
-      z-index: 10;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 10px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(5, 0, 20, 0.8);
+      border-bottom: 3px solid #ff00ff;
+      box-shadow: 0 0 20px #ff00ff;
+      transform: translateY(-100%);
+      transition: transform 0.6s ease;
+      font-family: 'Righteous', cursive;
+    }
+
+    #hud.visible {
+      transform: translateY(0);
+    }
+
+    .hud-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .hud-avatar {
+      width: 50px;
+      height: 50px;
+      border: 2px solid #0ff;
+      background: url('./assets/images/pfp.jpg') center/cover;
+      box-shadow: 0 0 10px #0ff;
+    }
+
+    .hud-name {
+      font-size: 1.5rem;
+      color: #ff00ff;
+      text-shadow: 0 0 5px #ff00ff;
+    }
+
+    .hud-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .level-badge {
+      background: #0ff;
+      color: #000;
+      padding: 5px 15px;
+      font-size: 1rem;
+      box-shadow: 0 0 10px #0ff;
+      text-transform: uppercase;
+    }
+
+    .xp-container {
+      width: 200px;
+      height: 15px;
+      border: 2px solid #0ff;
+      background: #000;
+      box-shadow: 0 0 5px #0ff;
+    }
+
+    .xp-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: #ff00ff;
+      box-shadow: 0 0 10px #ff00ff;
+      transition: width 0.4s ease;
+    }
+
+    /* Main Content */
+    #main-content {
+      padding-top: 100px;
+      padding-bottom: 80px;
       opacity: 0;
-      transform: translateY(-20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-      text-shadow: 0 0 8px #0ff;
+      transition: opacity 1s ease;
+      position: relative;
+      z-index: 10;
+    }
+
+    #main-content.visible {
+      opacity: 1;
     }
 
     .container {
-      max-width: 1000px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 1rem;
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 10px;
-      box-shadow: 0 0 20px #0ff7;
-      backdrop-filter: blur(10px);
+      padding: 0 20px;
     }
 
-    /* Profile Picture */
-    .profile-pic {
-      width: 150px;
-      height: 150px;
-      margin: 0 auto 1rem;
-      border-radius: 50%;
-      background: #444;
-      display: block;
-      background-image: url('./assets/images/pfp.jpg');
-      background-position: top;
-      background-size: cover;
-      box-shadow: 0 0 15px #0ff;
-      transition: transform 0.3s ease, opacity 0.6s ease;
-      opacity: 0;
-      transform: translateY(40px);
-    }
-
-    .profile-pic.animate {
-      opacity: 1;
-      transform: translateY(0) scale(1.05);
-      box-shadow: 0 0 25px #0ff;
-    }
-
-    .profile-pic:hover {
-      transform: scale(1.1) rotate(5deg);
-      box-shadow: 0 0 35px #0ffcda;
-    }
-
-    /* Headings */
-    h1,
     h2 {
+      font-family: 'Righteous', cursive;
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+      background: linear-gradient(to bottom, #ffffff 0%, #00ffff 50%, #000000 51%, #ff00ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 8px #ff00ff);
       text-align: center;
-      margin-bottom: 0.5rem;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-      color: #0ff;
-      text-shadow:
-        0 0 5px #00fefe,
-        0 0 15px #00fefe,
-        0 0 20px #00fefe;
-    }
-
-    h1.animate,
-    h2.animate {
-      opacity: 1;
-      transform: translateY(0);
     }
 
     /* About Section */
-    .about {
-      background: rgba(0, 255, 255, 0.05);
-      border-radius: 8px;
-      padding: 1rem 2rem;
-      margin: 2rem 0;
-      box-shadow: 0 0 12px #00fff0;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.6;
-      color: #a0fff0;
-      font-weight: 600;
-      text-shadow: 0 0 10px #00fff0aa;
-    }
-
-    .about.animate {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Section Container */
-    section.project-section {
-      margin-top: 3rem;
-    }
-
-    /* Projects Grids */
-    .projects,
-    .projects-collab {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .projects.animate,
-    .projects-collab.animate {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Collaborated project cards normal highlight */
-    .project-collab {
+    .about-card {
       background: rgba(0, 0, 0, 0.7);
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 0 6px #0ff;
+      border: 2px solid #0ff;
+      box-shadow: 0 0 15px #0ff, inset 0 0 15px #0ff;
+      padding: 30px;
+      margin-bottom: 60px;
+      text-align: center;
+    }
+
+    .about-card p {
+      font-size: 1.5rem;
+      line-height: 1.6;
+      color: #ffea00;
+      text-shadow: 0 0 5px #ffea00;
+      margin-bottom: 20px;
+    }
+
+    /* Projects Grid */
+    .carousel-section {
+      margin-bottom: 70px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    /* Vaporwave Game Tile */
+    .game-card {
+      background: #000;
+      border: 3px solid #ff00ff;
+      box-shadow: 0 0 15px #ff00ff;
+      padding: 10px;
       cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      text-align: center;
-      opacity: 0;
-      transform: translateY(30px);
-      color: #0ff;
-      border: 2px solid rgba(0, 255, 255, 0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
 
-    .project-collab.animate {
-      opacity: 1;
-      transform: translateY(0);
+    .game-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) 2px, transparent 2px, transparent 4px);
+      z-index: 2;
+      pointer-events: none;
     }
 
-    .project-collab:hover {
+    .game-card:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 20px #0ffcda;
-      border-color: #0ffcda;
+      border-color: #0ff;
+      box-shadow: 0 0 25px #0ff;
     }
 
-    /* Project Images and Titles */
-    .project-solo img,
-    .project-collab img {
+    .game-card img {
       width: 100%;
-      height: 140px;
+      height: 160px;
       object-fit: cover;
-      display: block;
-      transition: transform 0.3s ease;
-      filter: drop-shadow(0 0 5px #00ffff);
-      border-bottom: 1px solid #0ff;
+      filter: contrast(1.2) saturate(1.5);
+      transition: filter 0.3s;
     }
 
-    .project-solo:hover img,
-    .project-collab:hover img {
-      transform: scale(1.1);
-      filter: drop-shadow(0 0 10px #00fffc);
+    .game-card:hover img {
+      filter: contrast(1) saturate(2) hue-rotate(20deg);
     }
 
-    .project-title {
-      padding: 0.5rem;
-      font-weight: bold;
-      color: #0ff;
-      text-shadow: 0 0 8px #00fff0;
+    .game-info {
+      padding-top: 15px;
       text-align: center;
-      /* Add this line to center the text */
+      font-family: 'Righteous', cursive;
     }
 
-    /* Social links */
+    .game-title {
+      font-size: 1.3rem;
+      color: #0ff;
+      text-shadow: 0 0 5px #0ff;
+      text-transform: uppercase;
+    }
+
+    .game-engine {
+      font-size: 1rem;
+      color: #ff00ff;
+      text-shadow: 0 0 5px #ff00ff;
+      margin-top: 5px;
+    }
+
+    /* Social Links */
+    .social-section {
+      text-align: center;
+      margin-top: 50px;
+    }
+
     .social-links {
-      margin-top: 2rem;
-      text-align: center;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
     }
 
-    .social-links.animate {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .social-links a {
-      display: inline-block;
-      margin: 0 0.5rem;
+    .social-btn {
+      font-size: 3rem;
       text-decoration: none;
-      color: #0ff;
-      font-size: 1.8rem;
-      transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
-      text-shadow: 0 0 10px #00fff0;
+      color: #ffea00;
+      text-shadow: 0 0 15px #ffea00;
+      transition: all 0.3s ease;
     }
 
-    .social-links a:hover {
-      color: #0ffcda;
-      transform: scale(1.2);
-      text-shadow: 0 0 20px #00ffcdaa;
+    .social-btn:hover {
+      color: #0ff;
+      text-shadow: 0 0 25px #0ff;
+      transform: translateY(-10px);
+    }
+
+    /* Achievements */
+    #toast-container {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      pointer-events: none;
+    }
+
+    .trophy-toast {
+      background: #050014;
+      border: 3px solid #ff00ff;
+      box-shadow: 0 0 20px #ff00ff;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      animation: glitchIn 0.5s forwards;
+      font-family: 'VT323', monospace;
+      text-transform: uppercase;
+    }
+
+    .trophy-icon {
+      font-size: 2.5rem;
+    }
+
+    .trophy-text h4 {
+      font-size: 1.5rem;
+      color: #0ff;
+      text-shadow: 0 0 1.5px #0ff;
+      margin-bottom: 5px;
+    }
+
+    .trophy-text p {
+      font-size: 1.2rem;
+      color: #ffea00;
+    }
+
+    @keyframes glitchIn {
+      0% {
+        transform: translateX(120%) skewX(20deg);
+        opacity: 0;
+      }
+
+      50% {
+        transform: translateX(-10%) skewX(-20deg);
+        opacity: 1;
+        filter: invert(1);
+      }
+
+      100% {
+        transform: translateX(0) skewX(0deg);
+        opacity: 1;
+        filter: invert(0);
+      }
+    }
+
+    @keyframes slideOut {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+
+      to {
+        transform: translateX(120%);
+        opacity: 0;
+      }
+    }
+
+    .trophy-toast.hide {
+      animation: slideOut 0.4s ease forwards;
     }
 
     /* Responsive */
-    @media (max-width: 500px) {
-      .profile-pic {
-        width: 120px;
-        height: 120px;
+    @media (max-width: 768px) {
+      .hud-right {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 5px;
       }
 
-      .about {
-        padding: 1rem;
+      .xp-container {
+        width: 120px;
+      }
+
+      h2 {
+        font-size: 2rem;
+      }
+
+      .about-card p {
+        font-size: 1.2rem;
+      }
+
+      #toast-container {
+        right: 10px;
+        left: 10px;
+        bottom: 20px;
+      }
+
+      .synth-sun {
+        width: 300px;
+        height: 300px;
+        top: 15vh;
       }
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <h1>My Portfolio</h1>
-  </header>
-  <div class="container">
-    <div class="profile-pic" title="Profile Picture"></div>
-    <section class="about" aria-label="About Me">
-      <h2>About Me</h2>
-      <p>
-      <p>Hey! I am Swarnav, a passionate game developer currently working as an HTML5 Game Developer at Red Apple
-        Technologies, Kolkata. With 3 years of experience, I have successfully developed and collaborated on a wide
-        range of projects utilizing various JavaScript frameworks and platforms. I am committed to continuous learning,
-        always exploring new technologies that enhance my skills professionally and personally. Here, I showcase some of
-        the projects I have developed and contributed to, demonstrating my capabilities and versatility in the field.
-      </p>
-      <h2>About the Projects</h2>
-      <p>
-        In the "Projects Developed Solo" section, you will find games where I independently coded all the core mechanics
-        and features, showcasing my full development capabilities. The "Projects Collaborated On" section features
-        projects where I contributed as part of a team, bringing my expertise to enhance and support collaborative game
-        development efforts. All of these projects are integrated into Playzhub, a gaming platform developed by Red
-        Apple Technologies.
-      </p>
-    </section>
-    <section class="project-section">
-      <h2>Projects Developed Solo</h2>
-      <div class="projects" id="projects-solo">
-        <!-- Solo project thumbnails added by JS -->
-      </div>
-    </section>
-    <section class="project-section">
-      <h2>Projects Collaborated On</h2>
-      <div class="projects-collab" id="projects-collab">
-        <!-- Collaborated project thumbnails added by JS -->
-      </div>
-    </section>
-    <section class="social-links" aria-label="Social Links">
-      <h2>Connect with Me</h2>
-      <a href="https://github.com/pixiswarnav" target="_blank" rel="noopener noreferrer" aria-label="GitHub">🐱</a>
-      <a href="www.linkedin.com/in/swarnavk" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">🔗</a>
-      <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" aria-label="Twitter">🐦</a>
-      <a href="mailto:swarnavkarmakar@gmail.com" aria-label="Email">✉️</a>
-    </section>
+  <!-- Vaporwave Elements -->
+  <div class="synth-sun"></div>
+  <div class="synth-grid"></div>
+
+  <!-- Boot Screen -->
+  <div id="intro-screen">
+    <h1 id="start-btn">INSERT COIN<br>TO START</h1>
   </div>
+
+  <!-- HUD -->
+  <div id="hud">
+    <div class="hud-left">
+      <div class="hud-avatar"></div>
+      <div class="hud-name">SWARNAV</div>
+    </div>
+    <div class="hud-right">
+      <div class="level-badge" id="level-display">LVL 1</div>
+      <div class="xp-container">
+        <div class="xp-bar-fill" id="xp-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Achievements Container -->
+  <div id="toast-container"></div>
+
+  <!-- Main Content -->
+  <div id="main-content">
+    <div class="container">
+
+      <section class="about-card">
+        <h2>OVERVIEW</h2>
+        <p>
+          HEY! I AM SWARNAV, A GAME DEVELOPER AT RED APPLE TECHNOLOGIES, KOLKATA. WITH 4 YEARS OF PROFESSIONAL
+          EXPERIENCE, I HAVE SUCCESSFULLY DEVELOPED AND COLLABORATED ON A WIDE RANGE OF PROJECTS UTILIZING VARIOUS
+          JAVASCRIPT FRAMEWORKS.
+        </p>
+        <p>
+          I AM COMMITTED TO CONTINUOUS LEARNING, EXPLORING NEW TECHNOLOGIES THAT ENHANCE MY SKILLS. HERE IS A SHOWCASE
+          OF THE PROJECTS I HAVE DEVELOPED.
+        </p>
+      </section>
+
+      <section class="carousel-section">
+        <h2>SOLO TITLES</h2>
+        <div class="grid" id="grid-solo"></div>
+      </section>
+
+      <section class="carousel-section">
+        <h2>COLLABORATIONS</h2>
+        <div class="grid" id="grid-collab"></div>
+      </section>
+
+      <section class="social-section">
+        <h2>NETWORK</h2>
+        <div class="social-links">
+          <a href="https://github.com/pixiswarnav" target="_blank" rel="noopener noreferrer" class="social-btn">🐙</a>
+          <a href="https://www.linkedin.com/in/swarnavk" target="_blank" rel="noopener noreferrer"
+            class="social-btn">💼</a>
+          <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" class="social-btn">🐦</a>
+          <a href="mailto:swarnavkarmakar@gmail.com" class="social-btn">✉️</a>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
   <script>
-    // Projects data: separated into solo and collaborated
+    // Project Data
     const projectsSolo = [
-      {
-        title: ['Cake Sort', '(PhaserJS)'].join('<br>'),
-        img: './assets/images/thumbnails/Cake-Sort.png',
-        url: 'https://www.playzhub.com/game/Cake-Sort'
-      },
-      {
-        title: ['Word Search', '(PhaserJS)'].join('<br>'),
-        img: './assets/images/thumbnails/WordSearch.png',
-        url: 'https://www.playzhub.com/game/Word-Search'
-      },
-      {
-        title: ['Snakes & Ladders', '(PhaserJS)'].join('<br>'),
-        img: './assets/images/thumbnails/Snake-&-Ladder.png',
-        url: 'https://www.playzhub.com/game/Snake-and-Ladder'
-      },
-      {
-        title: ['Super Bird', '(Construct 3)'].join('<br>'),
-        img: './assets/images/thumbnails/SuperBird.png',
-        url: 'https://www.playzhub.com/game/Super-Bird'
-      },
-      {
-        title: ['Super Monkey', '(PhaserJS)'].join('<br>'),
-        img: './assets/images/thumbnails/SuperMonkey.png',
-        url: 'https://www.playzhub.com/game/Super-Monkey'
-      },
-      {
-        title: ['Turbo Ride', '(Construct 3)'].join('<br>'),
-        img: './assets/images/thumbnails/Turbo-Ride.webp',
-        url: 'https://www.playzhub.com/game/Turbo-Ride'
-      },
-      {
-        title: ['Checkers Go', '(PixiJS)'].join('<br>'),
-        img: './assets/images/thumbnails/CheckersGo.png',
-        url: 'https://dev-games.playzhub.com/CheckersGo/'
-      },
-      {
-        title: ['Magic Memory', '(React)'].join('<br>'),
-        img: './assets/images/thumbnails/magicmemory.webp',
-        url: 'https://magic-memory-1.netlify.app/'
-      },
-      {
-        title: ['Tank 1990', '(React + PhaserTS)'].join('<br>'),
-        img: './assets/images/thumbnails/tank1990.webp',
-        url: 'https://tank1990.netlify.app/'
-      },
-      {
-        title: ['Cannon Pop', '(Cocos Creator)'].join('<br>'),
-        img: './assets/images/thumbnails/CannonPop.webp',
-        url: 'https://dev-games.playzhub.com/CannonPop/'
-      },
-      {
-        title: ['Hold & Spin Concept', '(PixiJS)'].join('<br>'),
-        img: './assets/images/thumbnails/HoldSpin.webp',
-        url: 'https://hold-spin.netlify.app/'
-      },
-      {
-        title: ['Table Tennis World Tour', '(Cocos Creator)'].join('<br>'),
-        img: './assets/images/thumbnails/TableTennis.webp',
-        url: 'https://dev-games.playzhub.com/TableTennisWorldTour/'
-      },
-      {
-        title: ['Wonderleap Firewall Defender - K12 Game', '(Cocos Creator)'].join('<br>'),
-        img: './assets/images/thumbnails/wonderleap_cyber_security.png',
-        url: 'https://web.staging.redappletech.com/wonderleap'
-      },
-      {
-        title: ['Wonderleap Green City Guardian - K12 Game', '(Cocos Creator)'].join('<br>'),
-        img: './assets/images/thumbnails/greencity.png',
-        url: 'https://web.staging.redappletech.com/webglgame/SustainibilityOfficer/'
-      }
+      { title: 'Cake Sort<br>(PhaserJS)', img: './assets/images/thumbnails/Cake-Sort.png', url: 'https://www.playzhub.com/game/Cake-Sort' },
+      { title: 'Word Search<br>(PhaserJS)', img: './assets/images/thumbnails/WordSearch.png', url: 'https://www.playzhub.com/game/Word-Search' },
+      { title: 'Snakes & Ladders<br>(PhaserJS)', img: './assets/images/thumbnails/Snake-&-Ladder.png', url: 'https://www.playzhub.com/game/Snake-and-Ladder' },
+      { title: 'Super Bird<br>(Construct 3)', img: './assets/images/thumbnails/SuperBird.png', url: 'https://www.playzhub.com/game/Super-Bird' },
+      { title: 'Super Monkey<br>(PhaserJS)', img: './assets/images/thumbnails/SuperMonkey.png', url: 'https://www.playzhub.com/game/Super-Monkey' },
+      { title: 'Turbo Ride<br>(Construct 3)', img: './assets/images/thumbnails/Turbo-Ride.webp', url: 'https://www.playzhub.com/game/Turbo-Ride' },
+      { title: 'Checkers Go<br>(PixiJS)', img: './assets/images/thumbnails/CheckersGo.png', url: 'https://dev-games.playzhub.com/CheckersGo/' },
+      { title: 'Magic Memory<br>(React)', img: './assets/images/thumbnails/magicmemory.webp', url: 'https://magic-memory-1.netlify.app/' },
+      { title: 'Tank 1990<br>(React + PhaserTS)', img: './assets/images/thumbnails/tank1990.webp', url: 'https://tank1990.netlify.app/' },
+      { title: 'Cannon Pop<br>(Cocos Creator)', img: './assets/images/thumbnails/CannonPop.webp', url: 'https://dev-games.playzhub.com/CannonPop/' },
+      { title: 'Hold & Spin Concept<br>(PixiJS)', img: './assets/images/thumbnails/HoldSpin.webp', url: 'https://hold-spin.netlify.app/' },
+      { title: 'Table Tennis World Tour<br>(Cocos Creator)', img: './assets/images/thumbnails/TableTennis.webp', url: 'https://dev-games.playzhub.com/TableTennisWorldTour/' },
+      { title: 'Wonderleap Firewall Defender<br>(Cocos Creator)', img: './assets/images/thumbnails/wonderleap_cyber_security.png', url: 'https://web.staging.redappletech.com/wonderleap' },
+      { title: 'Wonderleap Green City Guardian<br>(Cocos Creator)', img: './assets/images/thumbnails/greencity.png', url: 'https://web.staging.redappletech.com/webglgame/SustainibilityOfficer/' }
     ];
 
     const projectsCollab = [
-      {
-        title: ['Beasty Attack', '(Construct 3)'].join('<br>'),
-        img: './assets/images/thumbnails/Beasty-Attack.png',
-        url: 'https://www.playzhub.com/game/Beasty-Attack'
-      },
-      {
-        title: ['Candies Stripes', '(Construct 3)'].join('<br>'),
-        img: './assets/images/thumbnails/Candies-Stripes.png',
-        url: 'https://www.playzhub.com/game/Candies-Stripes'
-      },
-      {
-        title: ['Cosmic Redeemer', '(Construct 3)'].join('<br>'),
-        img: './assets/images/thumbnails/Cosmic-Redeemer.png',
-        url: 'https://www.playzhub.com/game/Cosmic-Redeemer'
-      },
-      {
-        title: ['Cruiser Buzz', '(Construct 3)'].join('<br>'),
-        img: './assets/images/thumbnails/Cruiser-Buzz.png',
-        url: 'https://www.playzhub.com/game/Cruise-Buzz'
-      },
-      {
-        title: ['Flappy Shapes', '(Construct 3)'].join('<br>'),
-        img: './assets/images/thumbnails/Flappy-Shapes.png',
-        url: 'https://www.playzhub.com/game/Flappy-Shapes'
-      },
-      {
-        title: ['Ragey Birds', '(Construct 3)'].join('<br>'),
-        img: './assets/images/thumbnails/Ragey Birds.png',
-        url: 'https://www.playzhub.com/game/Ragey-Birds'
-      },
-      {
-        title: ['Smashy Pet Pops', '(Construct 3)'].join('<br>'),
-        img: './assets/images/thumbnails/Smashy-Pet-Pops.png',
-        url: 'https://www.playzhub.com/game/Smashy-Pet-Pops'
-      },
-      {
-        title: ['Soccer & Head Pop', '(Construct 3)'].join('<br>'),
-        img: './assets/images/thumbnails/Soccer-&-Head-Pop.png',
-        url: 'https://www.playzhub.com/game/Soccer-Head-Pop'
-      },
-      {
-        title: ['Tacky Tomb Run', '(Construct 3)'].join('<br>'),
-        img: './assets/images/thumbnails/Tacky-Tomb-Run.png',
-        url: 'https://www.playzhub.com/game/Tacky-Tomb-Run'
-      },
-      {
-        title: ['Ziggy Miner', '(Construct 3)'].join('<br>'),
-        img: './assets/images/thumbnails/Ziggy-Miner.png',
-        url: 'https://www.playzhub.com/game/Ziggy-Miner'
-      },
-      {
-        title: ['Stickman Run', '(Construct 3)'].join('<br>'),
-        img: './assets/images/thumbnails/StickmanRun.webp',
-        url: 'https://dev-games.playzhub.com/StickmanRun/'
-      },
-
+      { title: 'Beasty Attack<br>(Construct 3)', img: './assets/images/thumbnails/Beasty-Attack.png', url: 'https://www.playzhub.com/game/Beasty-Attack' },
+      { title: 'Candies Stripes<br>(Construct 3)', img: './assets/images/thumbnails/Candies-Stripes.png', url: 'https://www.playzhub.com/game/Candies-Stripes' },
+      { title: 'Cosmic Redeemer<br>(Construct 3)', img: './assets/images/thumbnails/Cosmic-Redeemer.png', url: 'https://www.playzhub.com/game/Cosmic-Redeemer' },
+      { title: 'Cruiser Buzz<br>(Construct 3)', img: './assets/images/thumbnails/Cruiser-Buzz.png', url: 'https://www.playzhub.com/game/Cruise-Buzz' },
+      { title: 'Flappy Shapes<br>(Construct 3)', img: './assets/images/thumbnails/Flappy-Shapes.png', url: 'https://www.playzhub.com/game/Flappy-Shapes' },
+      { title: 'Ragey Birds<br>(Construct 3)', img: './assets/images/thumbnails/Ragey Birds.png', url: 'https://www.playzhub.com/game/Ragey-Birds' },
+      { title: 'Smashy Pet Pops<br>(Construct 3)', img: './assets/images/thumbnails/Smashy-Pet-Pops.png', url: 'https://www.playzhub.com/game/Smashy-Pet-Pops' },
+      { title: 'Soccer & Head Pop<br>(Construct 3)', img: './assets/images/thumbnails/Soccer-&-Head-Pop.png', url: 'https://www.playzhub.com/game/Soccer-Head-Pop' },
+      { title: 'Tacky Tomb Run<br>(Construct 3)', img: './assets/images/thumbnails/Tacky-Tomb-Run.png', url: 'https://www.playzhub.com/game/Tacky-Tomb-Run' },
+      { title: 'Ziggy Miner<br>(Construct 3)', img: './assets/images/thumbnails/Ziggy-Miner.png', url: 'https://www.playzhub.com/game/Ziggy-Miner' },
+      { title: 'Stickman Run<br>(Construct 3)', img: './assets/images/thumbnails/StickmanRun.webp', url: 'https://dev-games.playzhub.com/StickmanRun/' }
     ];
-    // Function to add projects to a container
-    function addProjects(projects, containerId, projectClass) {
+
+    function populateGrid(projects, containerId) {
       const container = document.getElementById(containerId);
-      projects.forEach((project, idx) => {
-        const projectDiv = document.createElement('div');
-        projectDiv.className = projectClass;
-        projectDiv.setAttribute('tabindex', '0');
-        projectDiv.setAttribute('role', 'button');
-        projectDiv.setAttribute('aria-label', `Open ${project.title}`);
-        // On click or enter key open project in new tab
-        projectDiv.onclick = () => window.open(project.url, '_blank', 'noopener');
-        projectDiv.onkeypress = e => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            window.open(project.url, '_blank', 'noopener');
-          }
+      projects.forEach((project) => {
+        const card = document.createElement('div');
+        card.className = 'game-card';
+        card.tabIndex = 0;
+
+        const [mainTitle, engine] = project.title.split('<br>');
+
+        card.innerHTML = `
+          <img src="${project.img}" alt="${mainTitle}" loading="lazy">
+          <div class="game-info">
+            <div class="game-title">${mainTitle}</div>
+            <div class="game-engine">${engine ? engine.replace(/[()]/g, '') : ''}</div>
+          </div>
+        `;
+
+        const launchGame = () => {
+          unlockAchievement('game_launched', 'SYSTEM OVERRIDE', 'INITIATED GAME SEQUENCE');
+          addXP(20);
+          window.open(project.url, '_blank', 'noopener');
         };
-        const img = document.createElement('img');
-        img.src = project.img;
-        img.alt = project.title;
-        const title = document.createElement('div');
-        title.className = 'project-title';
-        title.innerHTML = project.title;
-        projectDiv.appendChild(img);
-        projectDiv.appendChild(title);
-        container.appendChild(projectDiv);
+
+        card.onclick = launchGame;
+        card.onkeypress = (e) => { if (e.key === 'Enter') launchGame(); };
+        container.appendChild(card);
       });
     }
-    // Add projects on page load
+
+    // --- GAMIFICATION LOGIC ---
+    let xp = 0;
+    let level = 1;
+    let xpNeeded = 100;
+    const achievements = new Set();
+
+    function addXP(amount) {
+      xp += amount;
+      if (xp >= xpNeeded) {
+        xp -= xpNeeded;
+        level++;
+        xpNeeded = Math.floor(xpNeeded * 1.25);
+        showTrophy(`LEVEL UP`, `YOU ARE NOW LEVEL ${level}`);
+        document.getElementById('level-display').innerText = `LVL ${level}`;
+      }
+      document.getElementById('xp-bar').style.width = `${(xp / xpNeeded) * 100}%`;
+    }
+
+    function showTrophy(title, desc) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'trophy-toast';
+      toast.innerHTML = `
+        <div class="trophy-icon">📼</div>
+        <div class="trophy-text">
+          <h4>${title}</h4>
+          <p>${desc}</p>
+        </div>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.classList.add('hide');
+        setTimeout(() => toast.remove(), 400);
+      }, 4000);
+    }
+
+    function unlockAchievement(id, title, desc) {
+      if (!achievements.has(id)) {
+        achievements.add(id);
+        showTrophy(title, desc);
+        addXP(50);
+      }
+    }
+
+    // Initialization
     window.addEventListener('DOMContentLoaded', () => {
-      addProjects(projectsSolo, 'projects-solo', 'project-solo');
-      addProjects(projectsCollab, 'projects-collab', 'project-collab');
-      // Animate header immediately
-      document.querySelector('header').classList.add('animate');
-      // Animate main titles h1,h2 outside container for better initial effect
-      document.querySelectorAll('h1,h2').forEach(el => {
-        if (el.parentElement.classList.contains('container') === false) {
-          el.classList.add('animate');
-        }
-      });
+      populateGrid(projectsSolo, 'grid-solo');
+      populateGrid(projectsCollab, 'grid-collab');
     });
-    // Intersection Observer to animate on scroll
-    const observerOptions = {
-      threshold: 0.2
+
+    const startGame = () => {
+      const intro = document.getElementById('intro-screen');
+      if (intro.style.display === 'none') return;
+      intro.style.opacity = '0';
+
+      setTimeout(() => {
+        intro.style.display = 'none';
+        document.getElementById('main-content').classList.add('visible');
+        document.getElementById('hud').classList.add('visible');
+        showTrophy("SYSTEM READY", "WELCOME TO THE GRID");
+      }, 800);
     };
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-    // Observe profile, about, project containers, social links and individual project cards
-    const targets = [
-      document.querySelector('.profile-pic'),
-      document.querySelector('.about'),
-      document.querySelector('.projects'),
-      document.querySelector('.projects-collab'),
-      document.querySelector('.social-links')
-    ].filter(Boolean);
-    targets.forEach(el => observer.observe(el));
-    // Also animate each project card with small delay in sequence
-    function observeProjectCards(className) {
-      const cards = document.querySelectorAll(`.${className}`);
-      cards.forEach((card, index) => {
-        card.style.transitionDelay = (index * 0.15) + 's';
-        observer.observe(card);
-      });
-    }
-    // After DOMContentLoaded, observe project cards with delay setting
-    window.addEventListener('DOMContentLoaded', () => {
-      observeProjectCards('project-solo');
-      observeProjectCards('project-collab');
+
+    document.getElementById('intro-screen').addEventListener('click', startGame);
+    document.addEventListener('keydown', startGame);
+
+    // Track scroll interactions for XP
+    let maxScroll = 0;
+    window.addEventListener('scroll', () => {
+      if (document.getElementById('intro-screen').style.display !== 'none') return;
+
+      const scrollPos = window.scrollY;
+      if (scrollPos > maxScroll + 200) {
+        maxScroll = scrollPos;
+        addXP(10);
+      }
+
+      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) {
+        unlockAchievement('bottom_reached', 'DATA MINER', 'REACHED THE BOTTOM OF THE MAINFRAME');
+      }
     });
+
+    // Track social clicks
+    document.querySelectorAll('.social-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        unlockAchievement('network', 'JACKED IN', 'ACCESSED THE GLOBAL NETWORK');
+        addXP(10);
+      });
+    });
+
   </script>
 </body>
 
